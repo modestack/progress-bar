@@ -19,13 +19,20 @@
       <style is="custom-style" include="demo-pages-shared-styles">
       </style>
     </custom-style>
+    <custom-style>
+      <style>
+        html {
+          --background-color: red;
+        }
+      </style>
+    </custom-style>
   </head>
   <body>
     <div class="vertical-section-container centered">
       <h3>Basic progress-bar demo</h3>
       <demo-snippet>
         <template>
-          <progress-bar percentage="20"></progress-bar>
+          <progress-bar progress="20" show-percentage></progress-bar>
         </template>
       </demo-snippet>
     </div>

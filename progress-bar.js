@@ -1,8 +1,8 @@
-import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
+import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 
 /**
  * `progress-bar`
- * 
+ *
  *
  * @customElement
  * @polymer
@@ -14,37 +14,54 @@ class ProgressBar extends PolymerElement {
       <style>
         :host {
           display: block;
-        }
-        :root {
-            --main-height: 20px;
-            --background-color: #F5F5F5;
-            --current-progress: 20%;
+          --main-height: 20px;
+          --background-color: #F5F5F5;
+          --foreground-color: #98DCFF;
+          --current-progress: 20%;
         }
 
         .progress-bar-shell {
-            background-color: #F5F5F5;
+            background-color: var(--background-color);
             height: var(--main-height)
         }
 
         .progress-bar {
             height: var(--main-height);
-            background-color: #98DCFF;
+            background-color: var(--foreground-color);
             width: var(--current-progress);
             transition: width 1s;
         }
       </style>
-      <div class="progress-bar-shell">
-        <div class="progress-bar">[[percentage]]</div>
-    </div>
+      <div role="progressbar" aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">
+        <template is="dom-if" if="{{showPercentage}}">
+            [[progress]]%
+        </template>
+        <div class="progress-bar-shell">
+          <div class="progress-bar"></div>
+        </div>
+      </div>
     `;
   }
+
   static get properties() {
     return {
-      percentage: {
+      progress: {
         type: Number,
-        value: 'progress-bar',
+        value: 0,
+        observer: '_progressChange'
       },
+      'showPercentage': {
+        type: Boolean,
+        value: false
+      }
     };
+  }
+
+  _progressChange(newVal) {
+    console.log('changed progress');
+    this.updateStyles({
+      '--current-progress': `${newVal}%`
+    });
   }
 }
 
